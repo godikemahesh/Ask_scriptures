@@ -146,7 +146,7 @@ for role, msg in st.session_state.chat_history:
     with st.chat_message(role):
         if role == "Gita AI":
             # Load local image and encode it as base64
-            with open("gita_dp.jpg", "rb") as img_file:
+            with open("Ask_scriptures/gita_dp.jpg", "rb") as img_file:
                 img_bytes = img_file.read()
                 b64_img = base64.b64encode(img_bytes).decode()
                 img_tag = f"<img src='data:image/png;base64,{b64_img}' class='gita-avatar'>"
