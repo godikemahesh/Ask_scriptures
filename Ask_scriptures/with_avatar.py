@@ -61,7 +61,7 @@ def load_faiss_index():
 
 @st.cache_resource
 def load_chunks():
-    with open("gita_chunks.json", "r", encoding="utf-8") as f:
+    with open("Ask_scriptures/gita_chunks.json", "r", encoding="utf-8") as f:
         return json.load(f)
 
 @st.cache_resource
