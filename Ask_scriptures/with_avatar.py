@@ -104,8 +104,8 @@ Answer:"""
     return response.choices[0].message.content.strip()
 
 # ----------------------------- Greeting Logic -----------------------------
-greeting_keywords = ["hello", "hi", "hey", "good morning", "good evening", "namaste"]
-thanks_keywords = ["thank", "thanks", "great", "awesome", "good job", "nice"]
+greeting_keywords = ["hello", "hi","hii", "hey", "good morning", "good evening", "namaste"]
+thanks_keywords = ["thank", "thanks", "great", "awesome", "good","good job", "nice","super"]
 sample_questions = [
     "How to control the mind?",
     "What is the path to peace according to the Gita?",
