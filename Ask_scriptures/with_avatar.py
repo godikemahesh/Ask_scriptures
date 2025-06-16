@@ -57,7 +57,7 @@ st.markdown("---")
 # ----------------------------- Load Resources -----------------------------
 @st.cache_resource
 def load_faiss_index():
-    return faiss.read_index("gita_faiss.index")
+    return faiss.read_index("Ask_scriptures/gita_faiss.index")
 
 @st.cache_resource
 def load_chunks():
