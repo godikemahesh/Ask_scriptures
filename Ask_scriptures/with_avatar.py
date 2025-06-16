@@ -124,7 +124,7 @@ question = st.chat_input("Type your question here...")
 if question:
     user_input = question.lower()
 
-    if any(greet in user_input for greet in greeting_keywords):
+    if any(greet == user_input for greet in greeting_keywords):
         reply = "Namaste 🙏 How can I assist you today with the wisdom of the Gita?"
         suggestion_text = "Here are a few things you can ask:\n" + "\n".join([f"- {q}" for q in sample_questions])
         st.session_state.chat_history.append(("You", question))
