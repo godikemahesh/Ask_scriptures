@@ -49,7 +49,7 @@ st.markdown("""
     }
     </style>
 """, unsafe_allow_html=True)
-st.markdown('<div class="title">Ask Scripures AI</div>', unsafe_allow_html=True)
+st.markdown('<div class="title">Ask Scriptures AI</div>', unsafe_allow_html=True)
 st.markdown('<div class="subtitle">Your Spiritual guide from Bhagavad Gita 🕊️</div>', unsafe_allow_html=True)
 
 st.markdown("---")
