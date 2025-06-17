@@ -1,5 +1,6 @@
 import base64
-
+from google.oauth2.service_account import Credentials
+import gspread
 import streamlit as st
 from openai import OpenAI
 from sentence_transformers import SentenceTransformer
@@ -8,6 +9,23 @@ import numpy as np
 import json
 from datetime import datetime
 
+def append_chat_to_sheet(user_input, gita_response):
+    # Use credentials from Streamlit secrets
+    scopes = ["https://www.googleapis.com/auth/spreadsheets"]
+    creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=scopes)
+
+    # Authorize gspread client
+    client = gspread.authorize(creds)
+
+    # Open your Google Sheet using the ID
+    sheet = client.open_by_key("1NDpRh9mBoTy3tffAegGLMBRxcdPpQcWNpLVIcNtBCSc").sheet1
+
+    # Create a timestamp and row
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    row = [timestamp, user_input, gita_response]
+
+    # Append the row to the sheet
+    sheet.append_row(row)
 # ----------------------------- App Configuration -----------------------------
 st.set_page_config(
     page_title="Ask Gita AI - Spiritual Chat Assistant",
@@ -140,6 +158,7 @@ if question:
         st.session_state.chat_history.append(("You", question))
         answer = get_gita_answer(question)
         st.session_state.chat_history.append(("Gita AI", answer))
+        append_chat_to_sheet(question, answer)
 
 # ----------------------------- Display Chat -----------------------------
 for role, msg in st.session_state.chat_history:
