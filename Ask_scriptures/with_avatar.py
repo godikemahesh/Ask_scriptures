@@ -92,7 +92,7 @@ model = load_model()
 
 from groq import Groq
 
-client = Groq(api_key="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")
+client = Groq(api_key=st.secrets["gcp_service_account"]["groq_api"])
 # ----------------------------- Core Logic -----------------------------
 def get_gita_answer(question):
     query_vector = model.encode([question])
