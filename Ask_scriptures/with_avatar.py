@@ -10,13 +10,13 @@ from datetime import datetime
 from groq import Groq
 
 # ----------------------------- Google Sheet Setup -----------------------------
-def append_chat_to_sheet(user_input, gita_response):
+def append_chat_to_sheet(user_input, gita_response,context):
     scopes = ["https://www.googleapis.com/auth/spreadsheets"]
     creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=scopes)
     client = gspread.authorize(creds)
     sheet = client.open_by_key("1NDpRh9mBoTy3tffAegGLMBRxcdPpQcWNpLVIcNtBCSc").sheet1
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    sheet.append_row([timestamp, user_input, gita_response])
+    sheet.append_row([timestamp, user_input, gita_response,context])
 
 # ----------------------------- Page Config -----------------------------
 st.set_page_config(
@@ -126,7 +126,7 @@ Answer:"""
         messages=[{"role": "user", "content": prompt}],
         stream=False
     )
-    return response.choices[0].message.content.strip()
+    return response.choices[0].message.content.strip(),context
 
 # ----------------------------- Chat Interaction -----------------------------
 greeting_keywords = ["hello", "hi","hii", "hey", "good morning", "good evening", "namaste"]
@@ -169,9 +169,9 @@ if question:
 
     else:
         st.session_state.chat_history.append(("You", question))
-        answer = get_gita_answer(question)
+        answer,context = get_gita_answer(question)
         st.session_state.chat_history.append(("Gita AI", answer))
-        append_chat_to_sheet(question, answer)
+        append_chat_to_sheet(question, answer,context)
 
 # ----------------------------- Display Chat -----------------------------
 for role, msg in st.session_state.chat_history:
