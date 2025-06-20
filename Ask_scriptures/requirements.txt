@@ -7,3 +7,4 @@ google-auth-httplib2
 sentence-transformers
 faiss-cpu
 numpy
+groq
