@@ -138,7 +138,14 @@ sample_questions = [
     "What is Karma Yoga?"
 ]
 
-st.subheader("🔍 Ask a Question from the Gita")
+st.markdown("""
+<h3 style='
+    color:#00FFFF;
+    text-shadow: 0 0 10px #00FFFF;
+    font-weight:bold;
+'>🔍 Ask a Question from the Gita</h3>
+""", unsafe_allow_html=True)
+
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
