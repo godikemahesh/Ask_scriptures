@@ -192,13 +192,13 @@ for role, msg in st.session_state.chat_history:
 
         else:
             st.markdown(
-                f"""
-                <div style='background-color:#fff7e6;padding:15px;border-radius:10px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);'>
-                    <span style='font-size:16px;font-weight:bold;'>{msg}</span>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+    f"""
+    <div style='background-color:#e6f7ff;padding:15px;border-radius:10px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);'>
+        <span style='font-size:16px;font-weight:bold; color:#2c3e50;'>{msg}</span>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # ----------------------------- Footer -----------------------------
 st.markdown("""
