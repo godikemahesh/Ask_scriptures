@@ -90,11 +90,9 @@ index = load_faiss_index()
 chunks = load_chunks()
 model = load_model()
 
-client = OpenAI(
-    api_key="mdb_03aQxjxZxFMJ1z7L36d3hvAw3Y6dfa7gF9IsbNc1S2mt",
-    base_url='https://llm.mdb.ai/'
-)
+from groq import Groq
 
+client = Groq(api_key="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")
 # ----------------------------- Core Logic -----------------------------
 def get_gita_answer(question):
     query_vector = model.encode([question])
@@ -112,7 +110,7 @@ Question: {question}
 Answer:"""
 
     response = client.chat.completions.create(
-        model="gpt-3.5-turbo",
+        model="llama3-8b-8192",
         messages=[
             {"role": "user", "content": prompt}
         ],
