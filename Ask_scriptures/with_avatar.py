@@ -182,17 +182,18 @@ for role, msg in st.session_state.chat_history:
                 b64_img = base64.b64encode(img_bytes).decode()
                 img_tag = f"<img src='data:image/png;base64,{b64_img}' class='gita-avatar'>"
             st.markdown(
-                f"""
-                <div style='background-color:#fff7e6;padding:15px;border-radius:10px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);'>
-                    {img_tag}<span style='font-size:16px;'>{msg}</span>
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
+    f"""
+    <div style='background-color:#fff7e6;padding:15px;border-radius:10px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);'>
+        {img_tag}<span style='font-size:16px; color:#2c3e50; font-family:"Segoe UI", sans-serif;'>{msg}</span>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
+
         else:
             st.markdown(
                 f"""
-                <div style='background-color:#e6f7ff;padding:15px;border-radius:10px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);'>
+                <div style='background-color:#fff7e6;padding:15px;border-radius:10px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);'>
                     <span style='font-size:16px;font-weight:bold;'>{msg}</span>
                 </div>
                 """,
