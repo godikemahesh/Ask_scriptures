@@ -53,7 +53,7 @@ st.markdown("""
     }
     .subtitle {
         font-size: 22px;
-        color: #444;
+        color: #00FFFF;
         text-align: center;
         margin-bottom: 2rem;
         font-style: italic;
