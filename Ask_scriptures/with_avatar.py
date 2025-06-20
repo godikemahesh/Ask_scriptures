@@ -91,7 +91,7 @@ chunks = load_chunks()
 model = load_model()
 
 client = OpenAI(
-    api_key="mdb_0JXfDNMjdfKy4BB3mxQWQwr9Ol2jvwSIYfduoeMAiFa1",
+    api_key="mdb_03aQxjxZxFMJ1z7L36d3hvAw3Y6dfa7gF9IsbNc1S2mt",
     base_url='https://llm.mdb.ai/'
 )
 
