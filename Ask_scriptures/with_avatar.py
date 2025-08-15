@@ -1190,7 +1190,7 @@ def render_chat_interface():
 
 
 def render_message(role, message, timestamp, metadata, index):
-    """Render chat message with native Streamlit chat API + custom CSS."""
+    """Render chat message with native Streamlit chat API + custom CSS (HTML not escaped)."""
     time_str = timestamp.strftime("%H:%M")
 
     session = st.session_state.chat_sessions[st.session_state.current_session_id]
@@ -1206,26 +1206,25 @@ def render_message(role, message, timestamp, metadata, index):
     if is_breakthrough:
         wrapper_class += " breakthrough-moment"
 
-    # Use Streamlit's chat message container
-    with st.chat_message("assistant" if role == "assistant" else "user"):
-        st.markdown(
-            f"""
-            <div class="{wrapper_class}">
-                <div class="message-header">
-                    <div class="message-author">
-                        {"Ask Scriptures AI" if role == "assistant" else "You"}
-                    </div>
-                    <div class="message-meta">
-                        <span class="message-time">{time_str}</span>
-                        {f'<span class="message-sentiment sentiment-{sentiment}">{sentiment}</span>' if sentiment != "neutral" else ''}
-                        {f'<span class="message-topics">🏷️ {", ".join(topics[:2])}</span>' if topics else ''}
-                    </div>
-                </div>
-                <div class="message-text">{message}</div>
+    html_block = f"""
+    <div class="{wrapper_class}">
+        <div class="message-header">
+            <div class="message-author">
+                {"Ask Scriptures AI" if role == "assistant" else "You"}
             </div>
-            """,
-            unsafe_allow_html=True
-        )
+            <div class="message-meta">
+                <span class="message-time">{time_str}</span>
+                {f'<span class="message-sentiment sentiment-{sentiment}">{sentiment}</span>' if sentiment != "neutral" else ''}
+                {f'<span class="message-topics">🏷️ {", ".join(topics[:2])}</span>' if topics else ''}
+            </div>
+        </div>
+        <div class="message-text">{message}</div>
+    </div>
+    """
+
+    with st.chat_message("assistant" if role == "assistant" else "user"):
+        st.markdown(html_block, unsafe_allow_html=True)
+
 
 def render_input_area():
     """Render the advanced input area"""
@@ -2876,6 +2875,7 @@ st.markdown("""
 print("🕉️ Ask Scriptures AI - Advanced Spiritual Intelligence System Loaded Successfully!")
 print("✨ Features: Advanced Memory | Personality Adaptation | Breakthrough Detection | Contextual Wisdom")
 print("🧠 Ready to provide personalized spiritual guidance with complete conversation history awareness.")
+
 
 
 
