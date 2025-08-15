@@ -1447,6 +1447,7 @@ def generate_spiritual_recommendations(personality, profile):
     return recommendations
 
 # Add CSS for enhanced mobile responsiveness
+# Add CSS for enhanced mobile responsiveness
 st.markdown("""
     <style>
     @media (max-width: 480px) {
@@ -1459,12 +1460,8 @@ st.markdown("""
         .logo-text { font-size: 1rem; }
         .status-indicator { display: none; }
     }
-    </style>
-""", unsafe_allow_html=True)
-
-print("🕉️ Ask Scriptures AI - Advanced Spiritual Intelligence System Loaded Successfully!")
-print("✨ Features: Advanced Memory | Personality Adaptation | Breakthrough Detection | Contextual Wisdom")
-print("🧠 Ready to provide personalized spiritual guidance with complete conversation history awareness.")stApp {
+    
+    .stApp {
         background: #000000;
         color: #ffffff;
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -2221,5 +2218,559 @@ print("🧠 Ready to provide personalized spiritual guidance with complete conve
         overflow: hidden;
     }
     
-    .
+    .suggestion-pill::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(135deg, rgba(255, 107, 107, 0.1) 0%, rgba(78, 205, 196, 0.1) 100%);
+        opacity: 0;
+        transition: opacity 0.3s;
+        border-radius: 25px;
+    }
+    
+    .suggestion-pill:hover {
+        color: #ffffff;
+        border-color: #FF6B6B;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(255, 107, 107, 0.2);
+    }
+    
+    .suggestion-pill:hover::before {
+        opacity: 1;
+    }
+    
+    /* Input Container */
+    .input-container {
+        position: fixed;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        max-width: 900px;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid #1a1a1a;
+        padding: 1.5rem 2rem;
+        z-index: 100;
+    }
+    
+    .input-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        background: rgba(10, 10, 10, 0.8);
+        border: 1px solid #2a2a2a;
+        border-radius: 20px;
+        padding: 0.75rem 1.25rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .input-wrapper:focus-within {
+        border-color: #FF6B6B;
+        box-shadow: 0 0 30px rgba(255, 107, 107, 0.2);
+        background: rgba(15, 15, 15, 0.9);
+    }
+    
+    .message-input {
+        flex: 1;
+        background: none;
+        border: none;
+        outline: none;
+        color: #ffffff;
+        font-size: 15px;
+        line-height: 1.5;
+        font-family: inherit;
+        resize: none;
+        min-height: 24px;
+        max-height: 120px;
+    }
+    
+    .message-input::placeholder {
+        color: #666;
+    }
+    
+    .send-button {
+        background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+        border: none;
+        border-radius: 12px;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        flex-shrink: 0;
+    }
+    
+    .send-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+    }
+    
+    .send-button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none;
+        box-shadow: none;
+    }
+    
+    /* Typing Indicator */
+    .typing-indicator {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.5rem;
+        margin-bottom: 2rem;
+        animation: fadeInUp 0.3s ease-out;
+    }
+    
+    .typing-dots {
+        display: flex;
+        gap: 0.25rem;
+        padding: 1rem;
+        background: rgba(10, 10, 10, 0.4);
+        border-radius: 12px;
+        border-left: 3px solid #FF6B6B;
+    }
+    
+    .typing-dot {
+        width: 8px;
+        height: 8px;
+        background: #FF6B6B;
+        border-radius: 50%;
+        animation: typingBounce 1.4s infinite;
+    }
+    
+    .typing-dot:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+    
+    .typing-dot:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+    
+    @keyframes typingBounce {
+        0%, 60%, 100% {
+            transform: translateY(0);
+            opacity: 0.4;
+        }
+        30% {
+            transform: translateY(-10px);
+            opacity: 1;
+        }
+    }
+    
+    /* Scrollbar Styling */
+    ::-webkit-scrollbar {
+        width: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #111111;
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+        border-radius: 4px;
+        transition: background 0.3s;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #e55a5a 0%, #45b8b0 100%);
+    }
+    
+    /* Loading States */
+    .loading-shimmer {
+        background: linear-gradient(90deg, 
+            rgba(255, 255, 255, 0.1) 25%, 
+            rgba(255, 255, 255, 0.2) 50%, 
+            rgba(255, 255, 255, 0.1) 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 2s infinite;
+    }
+    
+    @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+    
+    .skeleton-text {
+        height: 1rem;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        margin: 0.25rem 0;
+    }
+    
+    .skeleton-text.short { width: 60%; }
+    .skeleton-text.medium { width: 80%; }
+    .skeleton-text.long { width: 100%; }
+    
+    /* Error States */
+    .error-message {
+        background: linear-gradient(135deg, rgba(244, 67, 54, 0.1) 0%, rgba(229, 57, 53, 0.1) 100%);
+        border: 1px solid rgba(244, 67, 54, 0.3);
+        border-radius: 12px;
+        padding: 1rem;
+        margin: 1rem 0;
+        color: #f44336;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .error-icon {
+        width: 24px;
+        height: 24px;
+        background: #f44336;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #ffffff;
+        flex-shrink: 0;
+    }
+    
+    /* Success States */
+    .success-message {
+        background: linear-gradient(135deg, rgba(76, 175, 80, 0.1) 0%, rgba(67, 160, 71, 0.1) 100%);
+        border: 1px solid rgba(76, 175, 80, 0.3);
+        border-radius: 12px;
+        padding: 1rem;
+        margin: 1rem 0;
+        color: #4CAF50;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+    
+    .success-icon {
+        width: 24px;
+        height: 24px;
+        background: #4CAF50;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #ffffff;
+        flex-shrink: 0;
+    }
+    
+    /* Modal Overlay */
+    .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(10px);
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        animation: fadeIn 0.3s ease-out;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    .modal-content {
+        background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(26, 26, 26, 0.95) 100%);
+        border: 1px solid #2a2a2a;
+        border-radius: 20px;
+        padding: 2rem;
+        max-width: 500px;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+        animation: modalSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+    }
+    
+    @keyframes modalSlide {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    
+    .modal-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #2a2a2a;
+    }
+    
+    .modal-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #ffffff;
+        background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    
+    .modal-close {
+        background: rgba(42, 42, 42, 0.8);
+        border: 1px solid #3a3a3a;
+        border-radius: 8px;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #888;
+        transition: all 0.3s;
+    }
+    
+    .modal-close:hover {
+        background: rgba(244, 67, 54, 0.2);
+        border-color: #f44336;
+        color: #f44336;
+    }
+    
+    /* Tooltip */
+    .tooltip {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .tooltip::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.9);
+        color: #ffffff;
+        padding: 0.5rem 0.75rem;
+        border-radius: 6px;
+        font-size: 12px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+        z-index: 1000;
+        margin-bottom: 5px;
+    }
+    
+    .tooltip::before {
+        content: '';
+        position: absolute;
+        bottom: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 5px solid transparent;
+        border-top-color: rgba(0, 0, 0, 0.9);
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s;
+        z-index: 1000;
+    }
+    
+    .tooltip:hover::after,
+    .tooltip:hover::before {
+        opacity: 1;
+        visibility: visible;
+    }
+    
+    /* Context Menu */
+    .context-menu {
+        position: fixed;
+        background: rgba(10, 10, 10, 0.95);
+        border: 1px solid #2a2a2a;
+        border-radius: 12px;
+        padding: 0.5rem 0;
+        min-width: 180px;
+        z-index: 1000;
+        backdrop-filter: blur(20px);
+        animation: contextMenuSlide 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+    
+    @keyframes contextMenuSlide {
+        from {
+            opacity: 0;
+            transform: translateY(-10px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+    
+    .context-menu-item {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 0.75rem 1rem;
+        font-size: 14px;
+        color: #e4e4e4;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .context-menu-item:hover {
+        background: rgba(255, 107, 107, 0.1);
+        color: #FF6B6B;
+    }
+    
+    .context-menu-item.danger:hover {
+        background: rgba(244, 67, 54, 0.1);
+        color: #f44336;
+    }
+    
+    .context-menu-divider {
+        height: 1px;
+        background: #2a2a2a;
+        margin: 0.25rem 0;
+    }
+    
+    /* Responsive Design Enhancements */
+    @media (max-width: 768px) {
+        .main-chat-container { max-width: 100%; }
+        .header-bar { padding: 1rem; }
+        .chat-messages-container { padding: 1.5rem 1rem 8rem; }
+        .input-container { padding: 1rem; }
+        .welcome-container { padding: 3rem 1.5rem; }
+        .feature-grid { grid-template-columns: 1fr; }
+        .stats-grid { grid-template-columns: 1fr 1fr; }
+        .message-wrapper { gap: 0.75rem; margin-bottom: 1.5rem; }
+        .profile-card { margin: 1rem 0; }
+        .modal-content { margin: 1rem; padding: 1.5rem; }
+        .suggestions-container { justify-content: flex-start; }
+    }
+    
+    @media (max-width: 480px) {
+        .welcome-title { font-size: 2rem; }
+        .feature-grid { grid-template-columns: 1fr; }
+        .stats-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+        .message-wrapper { gap: 0.5rem; margin-bottom: 1.5rem; }
+        .input-container { padding: 1rem 0.5rem; }
+        .header-bar { padding: 0.75rem; }
+        .logo-text { font-size: 1rem; }
+        .status-indicator { display: none; }
+        .css-1y4p8pa { width: 280px !important; }
+        .profile-avatar { width: 48px; height: 48px; font-size: 24px; }
+        .modal-content { padding: 1.25rem; }
+        .context-menu { min-width: 150px; }
+    }
+    
+    /* Print Styles */
+    @media print {
+        .sidebar-header,
+        .input-container,
+        .header-bar,
+        .context-menu,
+        .modal-overlay {
+            display: none !important;
+        }
+        
+        .main-chat-container {
+            height: auto;
+            max-width: none;
+        }
+        
+        .chat-messages-container {
+            padding: 1rem;
+            overflow: visible;
+        }
+        
+        .message-wrapper {
+            break-inside: avoid;
+        }
+        
+        body {
+            background: white !important;
+            color: black !important;
+        }
+    }
+    
+    /* Animation Performance Optimization */
+    .message-wrapper,
+    .feature-card,
+    .suggestion-pill,
+    .chat-history-item,
+    .new-chat-btn,
+    .send-button {
+        will-change: transform;
+    }
+    
+    /* Focus Styles for Accessibility */
+    .new-chat-btn:focus,
+    .send-button:focus,
+    .suggestion-pill:focus,
+    .chat-history-item:focus {
+        outline: 2px solid #FF6B6B;
+        outline-offset: 2px;
+    }
+    
+    .message-input:focus {
+        outline: none;
+    }
+    
+    /* High Contrast Mode Support */
+    @media (prefers-contrast: high) {
+        .stApp {
+            background: #000000;
+            color: #ffffff;
+        }
+        
+        .message-text,
+        .verse-text,
+        .insight-content {
+            color: #ffffff;
+        }
+        
+        .border,
+        .chat-history-item,
+        .profile-card {
+            border-color: #ffffff;
+        }
+    }
+    
+    /* Reduced Motion Support */
+    @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+        }
+        
+        .pulse,
+        .rotate,
+        .shimmer,
+        .blink,
+        .aiGlow,
+        .titleGlow {
+            animation: none !important;
+        }
+    }
+    
+    </style>
+""", unsafe_allow_html=True)
+
+print("🕉️ Ask Scriptures AI - Advanced Spiritual Intelligence System Loaded Successfully!")
+print("✨ Features: Advanced Memory | Personality Adaptation | Breakthrough Detection | Contextual Wisdom")
+print("🧠 Ready to provide personalized spiritual guidance with complete conversation history awareness.")
 
