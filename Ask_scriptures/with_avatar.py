@@ -10,79 +10,201 @@ from datetime import datetime
 from groq import Groq
 
 # ----------------------------- Google Sheet Setup -----------------------------
-def append_chat_to_sheet(user_input, gita_response,context):
+def append_chat_to_sheet(user_input, gita_response, context):
     scopes = ["https://www.googleapis.com/auth/spreadsheets"]
     creds = Credentials.from_service_account_info(st.secrets["gcp_service_account"], scopes=scopes)
     client = gspread.authorize(creds)
     sheet = client.open_by_key("1NDpRh9mBoTy3tffAegGLMBRxcdPpQcWNpLVIcNtBCSc").sheet1
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    sheet.append_row([timestamp, user_input, gita_response,context])
+    sheet.append_row([timestamp, user_input, gita_response, context])
 
 # ----------------------------- Page Config -----------------------------
 st.set_page_config(
-    page_title="Ask Gita AI - Spiritual Chat Assistant",
-    page_icon="🕊️",
-    layout="wide"
+    page_title="Ask Scriptures AI - Spiritual Guidance",
+    page_icon="🕉️",
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
-# ----------------------------- Styling -----------------------------
+# ----------------------------- Professional Styling -----------------------------
 st.markdown("""
     <style>
-    body {
-        background: linear-gradient(135deg, #FFE3C5, #FFD6EC, #C2F0FC);
+    /* Import Google Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+    
+    /* Main container styling */
+    .main {
+        background: linear-gradient(180deg, #FAFBFC 0%, #F5F7FA 100%);
+        font-family: 'Inter', sans-serif;
     }
+    
     .block-container {
-        padding-top: 2rem;
-        background-color: rgba(255, 255, 255, 0.95);
-        border-radius: 12px;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        max-width: 1200px;
+        padding: 2rem 3rem;
+        margin: 0 auto;
     }
-    .title {
-        font-size: 56px;
-        font-weight: bold;
-        background: -webkit-linear-gradient(#ff6b6b, #fbc531);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
+    
+    /* Header styling */
+    .app-header {
         text-align: center;
-        margin-bottom: 0.5rem;
-        animation: glow 2s infinite alternate;
-    }
-    @keyframes glow {
-        0% { text-shadow: 0 0 5px #f39c12, 0 0 10px #f39c12; }
-        100% { text-shadow: 0 0 20px #f39c12, 0 0 30px #e67e22; }
-    }
-    .subtitle {
-        font-size: 22px;
-        color: #00FFFF;
-        text-align: center;
+        padding: 2rem 0 1rem 0;
         margin-bottom: 2rem;
-        font-style: italic;
     }
-    .footer {
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        width: 100%;
-        text-align: center;
-        padding: 10px;
-        background-color: #f9f9f9;
-        font-size: 14px;
-        border-top: 1px solid #ccc;
+    
+    .main-title {
+        font-size: 2.5rem;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.5px;
     }
-    .gita-avatar {
-        width: 36px;
-        height: 36px;
+    
+    .subtitle {
+        font-size: 1.1rem;
+        color: #6B7280;
+        font-weight: 400;
+        margin-top: 0.5rem;
+    }
+    
+    .divider {
+        height: 1px;
+        background: linear-gradient(to right, transparent, #E5E7EB, transparent);
+        margin: 2rem 0;
+    }
+    
+    /* Chat section header */
+    .chat-header {
+        font-size: 1.2rem;
+        font-weight: 500;
+        color: #374151;
+        margin-bottom: 1.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    /* Message styling */
+    .user-message {
+        background: #FFFFFF;
+        border: 1px solid #E5E7EB;
+        padding: 1rem 1.25rem;
+        border-radius: 12px;
+        margin: 0.75rem 0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .ai-message {
+        background: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+        border: 1px solid #E5E7EB;
+        padding: 1rem 1.25rem;
+        border-radius: 12px;
+        margin: 0.75rem 0;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+    
+    .message-content {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        color: #374151;
+    }
+    
+    .message-role {
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #6B7280;
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    /* Avatar styling */
+    .avatar {
+        width: 24px;
+        height: 24px;
         border-radius: 50%;
-        margin-right: 8px;
-        vertical-align: middle;
+        display: inline-block;
+    }
+    
+    /* Footer styling */
+    .footer {
+        margin-top: 4rem;
+        padding: 2rem 0;
+        border-top: 1px solid #E5E7EB;
+        text-align: center;
+        color: #6B7280;
+        font-size: 0.875rem;
+    }
+    
+    .footer-credits {
+        margin-top: 0.5rem;
+        color: #9CA3AF;
+        font-size: 0.8rem;
+    }
+    
+    /* Chat input styling */
+    .stChatInput {
+        background: #FFFFFF !important;
+        border: 1px solid #E5E7EB !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Button styling */
+    .stButton button {
+        background: #4F46E5;
+        color: white;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        font-weight: 500;
+        transition: background 0.2s;
+    }
+    
+    .stButton button:hover {
+        background: #4338CA;
+    }
+    
+    /* Remove default Streamlit styling */
+    .css-1d391kg, .css-1d391kg p {
+        font-family: 'Inter', sans-serif !important;
+    }
+    
+    /* Hide Streamlit branding */
+    #MainMenu {visibility: hidden;}
+    .stDeployButton {display: none;}
+    footer {visibility: hidden;}
+    
+    /* Sample questions styling */
+    .sample-questions {
+        background: #F9FAFB;
+        border: 1px solid #E5E7EB;
+        border-radius: 8px;
+        padding: 1rem;
+        margin-top: 0.5rem;
+        font-size: 0.9rem;
+        color: #6B7280;
+    }
+    
+    .sample-questions ul {
+        margin: 0.5rem 0 0 1rem;
+        padding: 0;
+    }
+    
+    .sample-questions li {
+        margin: 0.25rem 0;
+        color: #4B5563;
     }
     </style>
 """, unsafe_allow_html=True)
 
 # ----------------------------- App Header -----------------------------
-st.markdown('<div class="title">✨ Ask Scriptures AI ✨</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">Your Spiritual Guide from the Bhagavad Gita 🕉️🌸</div>', unsafe_allow_html=True)
-st.markdown("---")
+st.markdown("""
+    <div class="app-header">
+        <div class="main-title">🕉️ Ask Scriptures AI</div>
+        <div class="subtitle">Spiritual guidance from the Bhagavad Gita</div>
+    </div>
+    <div class="divider"></div>
+""", unsafe_allow_html=True)
 
 # ----------------------------- Load Resources -----------------------------
 @st.cache_resource
@@ -126,11 +248,11 @@ Answer:"""
         messages=[{"role": "user", "content": prompt}],
         stream=False
     )
-    return response.choices[0].message.content.strip(),context
+    return response.choices[0].message.content.strip(), context
 
 # ----------------------------- Chat Interaction -----------------------------
-greeting_keywords = ["hello", "hi","hii", "hey", "good morning", "good evening", "namaste"]
-thanks_keywords = ["thank", "thanks", "great", "awesome", "good","good job", "nice","super"]
+greeting_keywords = ["hello", "hi", "hii", "hey", "good morning", "good evening", "namaste"]
+thanks_keywords = ["thank", "thanks", "great", "awesome", "good", "good job", "nice", "super"]
 sample_questions = [
     "How to control the mind?",
     "What is the path to peace according to the Gita?",
@@ -138,19 +260,59 @@ sample_questions = [
     "What is Karma Yoga?"
 ]
 
-st.markdown("""
-<h3 style='
-    color:#00FFFF;
-    text-shadow: 0 0 10px #00FFFF;
-    font-weight:bold;
-'>🔍 Ask a Question from the Gita</h3>
-""", unsafe_allow_html=True)
-
-
+# Initialize session state
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
 
-question = st.chat_input("Type your question here...")
+# Chat interface
+st.markdown("""
+    <div class="chat-header">
+        <span>💬</span>
+        <span>Ask your question</span>
+    </div>
+""", unsafe_allow_html=True)
+
+# Display chat history
+for role, msg in st.session_state.chat_history:
+    if role == "You":
+        st.markdown(f"""
+            <div class="user-message">
+                <div class="message-role">
+                    <span>👤</span>
+                    <span>You</span>
+                </div>
+                <div class="message-content">{msg}</div>
+            </div>
+        """, unsafe_allow_html=True)
+    else:
+        # Format sample questions if present
+        if "Here are a few things you can ask:" in msg or "Would you like to explore more?" in msg:
+            parts = msg.split("\n")
+            main_message = parts[0]
+            if len(parts) > 1:
+                questions_html = "<div class='sample-questions'><p>Suggested questions:</p><ul>"
+                for part in parts[1:]:
+                    if part.strip().startswith("-"):
+                        questions_html += f"<li>{part[1:].strip()}</li>"
+                questions_html += "</ul></div>"
+                formatted_msg = main_message + questions_html
+            else:
+                formatted_msg = main_message
+        else:
+            formatted_msg = msg.replace("\n", "<br>")
+        
+        st.markdown(f"""
+            <div class="ai-message">
+                <div class="message-role">
+                    <span>🕉️</span>
+                    <span>Gita AI</span>
+                </div>
+                <div class="message-content">{formatted_msg}</div>
+            </div>
+        """, unsafe_allow_html=True)
+
+# Chat input
+question = st.chat_input("Type your spiritual question here...")
 
 if question:
     user_input = question.lower()
@@ -169,41 +331,17 @@ if question:
 
     else:
         st.session_state.chat_history.append(("You", question))
-        answer,context = get_gita_answer(question)
+        with st.spinner("Searching the Gita for wisdom..."):
+            answer, context = get_gita_answer(question)
         st.session_state.chat_history.append(("Gita AI", answer))
-        append_chat_to_sheet(question, answer,context)
-
-# ----------------------------- Display Chat -----------------------------
-for role, msg in st.session_state.chat_history:
-    with st.chat_message(role):
-        if role == "Gita AI":
-            with open("Ask_scriptures/gita_dp.jpg", "rb") as img_file:
-                img_bytes = img_file.read()
-                b64_img = base64.b64encode(img_bytes).decode()
-                img_tag = f"<img src='data:image/png;base64,{b64_img}' class='gita-avatar'>"
-            st.markdown(
-    f"""
-    <div style='background-color:#fff7e6;padding:15px;border-radius:10px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);'>
-        {img_tag}<span style='font-size:16px; color:#2c3e50; font-family:"Segoe UI", sans-serif;'>{msg}</span>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-        else:
-            st.markdown(
-    f"""
-    <div style='background-color:#e6f7ff;padding:15px;border-radius:10px;margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.1);'>
-        <span style='font-size:16px;font-weight:bold; color:#2c3e50;'>{msg}</span>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
+        append_chat_to_sheet(question, answer, context)
+    
+    st.rerun()
 
 # ----------------------------- Footer -----------------------------
 st.markdown("""
     <div class="footer">
-        🌟 <span style="color:#d35400;font-weight:bold;">Powered by SURAJ AI</span> | Developed by <span style="color:#8e44ad;font-weight:bold;">Mahi 🚀</span><br>
-        <span style="font-size:12px;color:#aaa;">🕊️ Embrace the teachings of Gita, live with purpose.</span>
+        <div>Powered by SURAJ AI | Spiritual guidance from ancient wisdom</div>
+        <div class="footer-credits">Developed</div>
     </div>
 """, unsafe_allow_html=True)
