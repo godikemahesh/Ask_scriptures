@@ -1165,67 +1165,52 @@ def render_welcome_screen():
     st.markdown("</div></div>", unsafe_allow_html=True)
 
 def render_chat_interface():
-    """Render the main chat interface"""
+    """Render the main chat interface using native chat components."""
     if not st.session_state.current_session_id:
         return
-    
+
     session = st.session_state.chat_sessions[st.session_state.current_session_id]
-    
-    # Chat messages container
-    st.markdown('<div class="chat-messages-container">', unsafe_allow_html=True)
-    
+
     for i, (role, message, timestamp, metadata) in enumerate(session["messages"]):
         render_message(role, message, timestamp, metadata, i)
-    
+
     # Thinking indicator
     if st.session_state.get("thinking_animation", False):
-        st.markdown("""
-            <div class="thinking-indicator">
-                <div class="thinking-dots">
-                    <div class="thinking-dot"></div>
-                    <div class="thinking-dot"></div>
-                    <div class="thinking-dot"></div>
+        with st.chat_message("assistant"):
+            st.markdown("""
+                <div class="thinking-indicator">
+                    <div class="thinking-dots">
+                        <div class="thinking-dot"></div>
+                        <div class="thinking-dot"></div>
+                        <div class="thinking-dot"></div>
+                    </div>
+                    <div class="thinking-text">Contemplating the depths of wisdom...</div>
                 </div>
-                <div class="thinking-text">Contemplating the depths of wisdom...</div>
-            </div>
-        """, unsafe_allow_html=True)
-    
-    st.markdown('</div>', unsafe_allow_html=True)
+            """, unsafe_allow_html=True)
+
 
 def render_message(role, message, timestamp, metadata, index):
-    """Render individual chat message with advanced features"""
+    """Render chat message with native Streamlit chat API + custom CSS."""
     time_str = timestamp.strftime("%H:%M")
-    
-    # Determine if this is a breakthrough moment
+
     session = st.session_state.chat_sessions[st.session_state.current_session_id]
     is_breakthrough = any(
-        breakthrough["timestamp"].strftime("%H:%M") == time_str 
+        breakthrough["timestamp"].strftime("%H:%M") == time_str
         for breakthrough in session.get("breakthrough_moments", [])
     )
-    
-    message_class = "message-ai" if role == "assistant" else "message-user"
-    avatar_class = "ai-avatar" if role == "assistant" else "user-avatar"
-    avatar_icon = "🕉️" if role == "assistant" else "👤"
-    
-    # Add context thread visualization for connected conversations
-    context_thread = ""
-    if index > 0 and metadata.get("contextual", False):
-        context_thread = '<div class="context-thread"></div>'
-    
+
+    sentiment = metadata.get("sentiment", "neutral")
+    topics = metadata.get("topics", [])
+
     wrapper_class = "message-wrapper"
     if is_breakthrough:
         wrapper_class += " breakthrough-moment"
-    
-    sentiment = metadata.get("sentiment", "neutral")
-    topics = metadata.get("topics", [])
-    
-    st.markdown(f"""
-        <div class="{wrapper_class}" style="animation-delay: {index * 0.1}s">
-            {context_thread}
-            <div class="message-avatar {avatar_class}">
-                {avatar_icon}
-            </div>
-            <div class="message-content {message_class}">
+
+    # Use Streamlit's chat message container
+    with st.chat_message("assistant" if role == "assistant" else "user"):
+        st.markdown(
+            f"""
+            <div class="{wrapper_class}">
                 <div class="message-header">
                     <div class="message-author">
                         {"Ask Scriptures AI" if role == "assistant" else "You"}
@@ -1236,12 +1221,11 @@ def render_message(role, message, timestamp, metadata, index):
                         {f'<span class="message-topics">🏷️ {", ".join(topics[:2])}</span>' if topics else ''}
                     </div>
                 </div>
-                <div class="message-text">
-                    {message}
-                </div>
+                <div class="message-text">{message}</div>
             </div>
-        </div>
-    """, unsafe_allow_html=True)
+            """,
+            unsafe_allow_html=True
+        )
 
 def render_input_area():
     """Render the advanced input area"""
@@ -2892,5 +2876,6 @@ st.markdown("""
 print("🕉️ Ask Scriptures AI - Advanced Spiritual Intelligence System Loaded Successfully!")
 print("✨ Features: Advanced Memory | Personality Adaptation | Breakthrough Detection | Contextual Wisdom")
 print("🧠 Ready to provide personalized spiritual guidance with complete conversation history awareness.")
+
 
 
