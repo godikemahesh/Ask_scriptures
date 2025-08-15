@@ -111,125 +111,12 @@ def append_chat_to_sheet(session_id, user_input, gita_response, context, sentime
 
 st.markdown("""
     <style>
-    /* Sidebar Styling */
-    .css-1y4p8pa {
-        width: 320px !important;
-        background: #0a0a0a !important;
-        border-right: 1px solid #1a1a1a !important;
-    }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap');
     
-    .css-1y4p8pa .block-container {
-        padding: 1rem !important;
-    }
-    
-    /* Main Chat Area */
-    .main-chat-container {
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-        max-width: 900px;
-        margin: 0 auto;
-        position: relative;
-    }
-    
-    /* Header Bar */
-    .header-bar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1rem 1.5rem;
-        border-bottom: 1px solid #1a1a1a;
-        background: rgba(0, 0, 0, 0.95);
-        backdrop-filter: blur(10px);
-        position: sticky;
-        top: 0;
-        z-index: 100;
-    }
-    
-    .header-left {
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-    }
-    
-    .logo-container {
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-    }
-    
-    .logo-icon {
-        width: 36px;
-        height: 36px;
-        background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 20px;
-        box-shadow: 0 0 20px rgba(255, 107, 107, 0.3);
-        animation: pulse 4s ease-in-out infinite;
-    }
-    
-    @keyframes pulse {
-        0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 107, 0.3); }
-        50% { box-shadow: 0 0 30px rgba(78, 205, 196, 0.4); }
-    }
-    
-    .logo-text {
-        font-size: 1.25rem;
-        font-weight: 600;
-        background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        letter-spacing: -0.02em;
-    }
-    
-    .status-indicator {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.25rem 0.75rem;
-        background: rgba(78, 205, 196, 0.1);
-        border: 1px solid rgba(78, 205, 196, 0.3);
-        border-radius: 20px;
-        font-size: 12px;
-        color: #4ECDC4;
-    }
-    
-    .status-dot {
-        width: 6px;
-        height: 6px;
-        background: #4ECDC4;
-        border-radius: 50%;
-        animation: blink 2s infinite;
-    }
-    
-    @keyframes blink {
-        0%, 50% { opacity: 1; }
-        51%, 100% { opacity: 0.3; }
-    }
-    
-    /* Suggestion Pills */
-    .suggestions-container {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 0.75rem;
-        margin-top: 2rem;
-        justify-content: center;
-    }
-    
-    .suggestion-pill {
-        background: rgba(10, 10, 10, 0.8);
-        border: 1px solid #2a2a2a;
-        border-radius: 25px;
-        padding: 0.75rem 1.5rem;
-        font-size: 14px;
-        color: #888;
-        cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        position: relative;
-        overflow: hidden;
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
     }
     
     .suggestion-pill::before {
@@ -254,7 +141,239 @@ st.markdown("""
         left: 100%;
     }
     
-    /* Mobile Responsive */
+    /* Input Area */
+    .input-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: rgba(0, 0, 0, 0.95);
+        backdrop-filter: blur(20px);
+        border-top: 1px solid #1a1a1a;
+        padding: 1.5rem;
+        z-index: 1000;
+    }
+    
+    .input-wrapper {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-end;
+    }
+    
+    .stChatInput {
+        flex: 1;
+    }
+    
+    .stChatInput textarea {
+        background: rgba(10, 10, 10, 0.9) !important;
+        border: 1px solid #2a2a2a !important;
+        color: #ffffff !important;
+        border-radius: 16px !important;
+        padding: 1rem 1.25rem !important;
+        font-size: 15px !important;
+        resize: none !important;
+        transition: all 0.3s !important;
+        min-height: 56px !important;
+        max-height: 120px !important;
+        font-family: 'Inter', sans-serif !important;
+    }
+    
+    .stChatInput textarea:focus {
+        border-color: #FF6B6B !important;
+        box-shadow: 0 0 0 2px rgba(255, 107, 107, 0.2) !important;
+        background: rgba(10, 10, 10, 0.95) !important;
+    }
+    
+    .stChatInput textarea::placeholder {
+        color: #666 !important;
+        font-style: italic !important;
+    }
+    
+    /* Loading Animation */
+    .thinking-indicator {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 1.25rem;
+        background: rgba(10, 10, 10, 0.8);
+        border: 1px solid #2a2a2a;
+        border-radius: 16px;
+        margin: 1rem 0;
+        animation: fadeIn 0.3s ease-out;
+    }
+    
+    .thinking-dots {
+        display: flex;
+        gap: 0.25rem;
+    }
+    
+    .thinking-dot {
+        width: 8px;
+        height: 8px;
+        background: #FF6B6B;
+        border-radius: 50%;
+        animation: thinking 1.4s ease-in-out infinite;
+    }
+    
+    .thinking-dot:nth-child(2) { animation-delay: 0.2s; }
+    .thinking-dot:nth-child(3) { animation-delay: 0.4s; }
+    
+    @keyframes thinking {
+        0%, 60%, 100% {
+            transform: translateY(0);
+            opacity: 0.4;
+        }
+        30% {
+            transform: translateY(-12px);
+            opacity: 1;
+        }
+    }
+    
+    .thinking-text {
+        color: #888;
+        font-size: 14px;
+        font-style: italic;
+    }
+    
+    /* Achievement Toast */
+    .achievement-toast {
+        position: fixed;
+        top: 100px;
+        right: 20px;
+        background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+        color: white;
+        padding: 1.25rem 2rem;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(255, 107, 107, 0.4);
+        animation: achievementSlide 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 2000;
+        min-width: 300px;
+    }
+    
+    @keyframes achievementSlide {
+        from {
+            transform: translateX(400px) scale(0.8);
+            opacity: 0;
+        }
+        to {
+            transform: translateX(0) scale(1);
+            opacity: 1;
+        }
+    }
+    
+    .achievement-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .achievement-icon {
+        font-size: 24px;
+    }
+    
+    .achievement-title {
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    .achievement-desc {
+        font-size: 14px;
+        opacity: 0.9;
+    }
+    
+    /* Context Thread Visualization */
+    .context-thread {
+        position: absolute;
+        left: 20px;
+        top: 0;
+        bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, transparent, rgba(255, 107, 107, 0.3), transparent);
+        opacity: 0;
+        animation: threadPulse 2s ease-in-out infinite;
+    }
+    
+    @keyframes threadPulse {
+        0%, 100% { opacity: 0; }
+        50% { opacity: 1; }
+    }
+    
+    /* Memory Visualization */
+    .memory-indicator {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        width: 24px;
+        height: 24px;
+        border: 2px solid rgba(78, 205, 196, 0.3);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        color: #4ECDC4;
+        animation: memoryPulse 3s ease-in-out infinite;
+    }
+    
+    @keyframes memoryPulse {
+        0%, 100% { 
+            border-color: rgba(78, 205, 196, 0.3);
+            background: transparent;
+        }
+        50% { 
+            border-color: rgba(78, 205, 196, 0.6);
+            background: rgba(78, 205, 196, 0.1);
+        }
+    }
+    
+    /* Breakthrough Moment Highlight */
+    .breakthrough-moment {
+        background: linear-gradient(135deg, rgba(255, 215, 0, 0.1) 0%, rgba(255, 107, 107, 0.1) 100%);
+        border: 2px solid rgba(255, 215, 0, 0.3);
+        border-radius: 16px;
+        padding: 1.5rem;
+        margin: 1rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .breakthrough-moment::before {
+        content: '✨';
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 24px;
+        animation: sparkle 2s ease-in-out infinite;
+    }
+    
+    @keyframes sparkle {
+        0%, 100% { transform: scale(1) rotate(0deg); opacity: 0.7; }
+        50% { transform: scale(1.2) rotate(180deg); opacity: 1; }
+    }
+    
+    /* Advanced Animations */
+    .ai-typing {
+        animation: aiTyping 1.5s ease-in-out infinite;
+    }
+    
+    @keyframes aiTyping {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.7; }
+    }
+    
+    .wisdom-glow {
+        animation: wisdomGlow 3s ease-in-out infinite;
+    }
+    
+    @keyframes wisdomGlow {
+        0%, 100% { filter: brightness(1) contrast(1); }
+        50% { filter: brightness(1.1) contrast(1.1); }
+    }
+    
+    /* Responsive Design */
     @media (max-width: 768px) {
         .css-1y4p8pa {
             width: 280px !important;
@@ -2773,4 +2892,5 @@ st.markdown("""
 print("🕉️ Ask Scriptures AI - Advanced Spiritual Intelligence System Loaded Successfully!")
 print("✨ Features: Advanced Memory | Personality Adaptation | Breakthrough Detection | Contextual Wisdom")
 print("🧠 Ready to provide personalized spiritual guidance with complete conversation history awareness.")
+
 
