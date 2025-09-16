@@ -122,7 +122,7 @@ Question: {question}
 Answer:"""
 
     response = client.chat.completions.create(
-        model="llama3-8b-8192",
+        model="llama-3.1-8b-instant",
         messages=[{"role": "user", "content": prompt}],
         stream=False
     )
@@ -207,3 +207,4 @@ st.markdown("""
         <span style="font-size:12px;color:#aaa;">🕊 Embrace the teachings of Gita, live with purpose.</span>
     </div>
 """, unsafe_allow_html=True)
+
