@@ -149,6 +149,9 @@ st.markdown("""
 
 if "chat_history" not in st.session_state:
     st.session_state.chat_history = []
+if st.session_state.chat_histrory == "":
+    st.session_state.chat_histrory.append(("Gita AI", "Radhe Radhe,i will teach you like krishna taught arjuna.how may i assist you today ?"))
+    
 
 question = st.chat_input("Type your question here...")
 
@@ -207,4 +210,5 @@ st.markdown("""
         <span style="font-size:12px;color:#aaa;">🕊 Embrace the teachings of Gita, live with purpose.</span>
     </div>
 """, unsafe_allow_html=True)
+
 
